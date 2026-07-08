@@ -1,0 +1,269 @@
+@import "tailwindcss";
+
+/* ===========================================================
+   THEME TOKENS
+   =========================================================== */
+@theme {
+  /* Brand palette — luxury wholesale jewellery */
+  --color-cream: #faf6ee;
+  --color-cream-200: #f3ebdb;
+  --color-ink: #1c140c;
+  --color-ink-soft: #3a2c1e;
+  --color-wine: #5a1326;
+  --color-wine-deep: #3a0b1b;
+  --color-wine-night: #2a0712;
+  --color-gold: #c19a3f;
+  --color-gold-light: #e7c879;
+  --color-gold-soft: #f4e8c8;
+  --color-rose: #b76e79;
+
+  /* Fonts */
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-body: "Poppins", system-ui, sans-serif;
+  --font-script: "Marcellus", Georgia, serif;
+}
+
+/* ===========================================================
+   BASE
+   =========================================================== */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-weight: 300;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+  }
+
+  ::selection {
+    background: var(--color-gold);
+    color: #fff;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar { width: 11px; }
+  ::-webkit-scrollbar-track { background: var(--color-wine-night); }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(var(--color-gold), var(--color-wine));
+    border-radius: 99px;
+    border: 2px solid var(--color-wine-night);
+  }
+}
+
+/* ===========================================================
+   UTILITIES & COMPONENTS
+   =========================================================== */
+@layer components {
+  .font-script { font-family: var(--font-script); }
+
+  /* Gold gradient text */
+  .text-gold-gradient {
+    background: linear-gradient(110deg, #b8862f 0%, #f3dd9a 35%, #cda23f 60%, #f6e6b8 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Thin uppercase eyebrow label */
+  .eyebrow {
+    font-family: var(--font-script);
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+  }
+
+  /* Frosted glass panel */
+  .glass {
+    background: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(231, 200, 121, 0.22);
+  }
+
+  .glass-light {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(193, 154, 63, 0.18);
+  }
+
+  /* Gold hairline divider */
+  .gold-rule {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+  }
+
+  /* Primary gold button */
+  .btn-gold {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(120deg, #d9af52 0%, #f3dd9a 45%, #c19a3f 100%);
+    color: var(--color-wine-deep);
+    box-shadow: 0 10px 30px -8px rgba(193, 154, 63, 0.6);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .btn-gold:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 40px -8px rgba(193, 154, 63, 0.75);
+  }
+  .btn-gold::after {
+    content: "";
+    position: absolute;
+    top: 0; left: -120%;
+    width: 60%; height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.6), transparent);
+    transform: skewX(-20deg);
+    transition: left 0.6s ease;
+  }
+  .btn-gold:hover::after { left: 140%; }
+
+  /* Outline gold button */
+  .btn-outline-gold {
+    border: 1px solid rgba(231, 200, 121, 0.55);
+    color: var(--color-gold-light);
+    transition: all 0.3s ease;
+  }
+  .btn-outline-gold:hover {
+    background: rgba(231, 200, 121, 0.12);
+    border-color: var(--color-gold-light);
+    transform: translateY(-2px);
+  }
+
+  /* Card lift */
+  .card-lift {
+    transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.45s ease;
+  }
+  .card-lift:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 30px 60px -25px rgba(58, 11, 27, 0.45);
+  }
+
+  /* Image zoom wrapper */
+  .img-zoom { overflow: hidden; }
+  .img-zoom img {
+    transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+    will-change: transform;
+  }
+  .img-zoom:hover img { transform: scale(1.08); }
+
+  /* Section vertical rhythm helper */
+  .section-pad { padding-top: 6rem; padding-bottom: 6rem; }
+}
+
+/* ===========================================================
+   SCROLL REVEAL
+   =========================================================== */
+.reveal {
+  opacity: 0;
+  transform: translateY(34px);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+  will-change: opacity, transform;
+}
+.reveal.in-view {
+  opacity: 1;
+  transform: none;
+}
+.reveal-zoom { transform: scale(0.92); }
+.reveal-zoom.in-view { transform: scale(1); }
+.reveal-left { transform: translateX(-44px); }
+.reveal-left.in-view { transform: none; }
+.reveal-right { transform: translateX(44px); }
+.reveal-right.in-view { transform: none; }
+
+/* ===========================================================
+   KEYFRAMES
+   =========================================================== */
+@keyframes floaty {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+.animate-floaty { animation: floaty 6s ease-in-out infinite; }
+
+@keyframes floaty-slow {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-22px) rotate(6deg); }
+}
+.animate-floaty-slow { animation: floaty-slow 9s ease-in-out infinite; }
+
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+.animate-spin-slow { animation: spin-slow 26s linear infinite; }
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee { animation: marquee 32s linear infinite; }
+
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.animate-blink { animation: blink 1s step-end infinite; }
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.9); opacity: 0.7; }
+  70% { transform: scale(1.7); opacity: 0; }
+  100% { transform: scale(1.7); opacity: 0; }
+}
+.animate-pulse-ring { animation: pulse-ring 2.4s ease-out infinite; }
+
+@keyframes sparkle {
+  0%, 100% { opacity: 0; transform: scale(0.4); }
+  50% { opacity: 1; transform: scale(1); }
+}
+.animate-sparkle { animation: sparkle 3s ease-in-out infinite; }
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-fade-in { animation: fade-in 0.4s ease both; }
+
+@keyframes zoom-in {
+  from { opacity: 0; transform: scale(0.94); }
+  to { opacity: 1; transform: scale(1); }
+}
+.animate-zoom-in { animation: zoom-in 0.4s cubic-bezier(0.2,0.7,0.2,1) both; }
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
+}
+.animate-bob { animation: bob 2s ease-in-out infinite; }
+
+@keyframes hero-up {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: none; }
+}
+.enter {
+  opacity: 0;
+  animation: hero-up 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+}
